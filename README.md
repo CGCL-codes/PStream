@@ -68,6 +68,8 @@ Threshold_p=0.01 (by default)
 
 ## Publications
 
+If you want know more detailed information, please refer to this paper:
+
 Hanhua Chen, Fan Zhang, Hai Jin. "Popularity-aware Differentiated Distributed Stream Processing on Skewed Steams." in Proceedings of ICNP, 2017.
 
 
