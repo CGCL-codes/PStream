@@ -18,26 +18,6 @@ The predicting component leverages a novel probabilistic counting scheme to prec
 The scheduling component stores the identified hot keys in a space efficient Counting Bloom filter. It quickly decides whether the key of the coming tuple is hot or not, and chooses the preferable scheduling schemes for the tuple with almost no latency.
 
 
-
-
-## API
-
-Generate SchedulingTopologyBuilder according to the Threshold_r, Threshold_l and Threshold_p (config in ./src/main/resources/dstream.properties).
-
-```java
-SchedulingTopologyBuilder builder=new SchedulingTopologyBuilder();
-```
-
-Set setDifferentiatedScheduling in Storm topology
-
-```java
-builder.setSpout(KAFKA_SPOUT_ID, kafkaSpout, PARALLISM);
-builder.setBalancingScheduling(KAFKA_SPOUT_ID,"word");
-builder.setBolt(WORDCOUNTER_BOLT_ID,wordCounterBolt, PARALLISM).fieldsGrouping(Constraints.SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.nohotFileds, new Fields(Constraints.wordFileds)).shuffleGrouping(Constraints.SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.hotFileds);
-builder.setBolt(AGGREGATOR_BOLT_ID, aggregatorBolt, PARALLISM).fieldsGrouping(WORDCOUNTER_BOLT_ID, new Fields(Constraints.wordFileds));
-```
-
-
 ## How to use?
 
 ### Environment
@@ -74,7 +54,7 @@ Threshold_p=0.01 (by default)
 
 ### Using DStream
 
-import SchedulingTopologyBuilder in the application source code
+Import SchedulingTopologyBuilder in the application source code
 
 ```txt
 import com.basic.core.SchedulingTopologyBuilder;
@@ -86,16 +66,19 @@ Build SchedulingTopologyBuilder before the building of the topology
 SchedulingTopologyBuilder builder=new SchedulingTopologyBuilder();
 ```
 
-Set the bolt of the coinbolt/synopsisbolt
+Generate SchedulingTopologyBuilder according to the Threshold_r, Threshold_l and Threshold_p (config in ./src/main/resources/dstream.properties).
 
-```txt
-builder.setBalancingScheduling(SPOUTID,SPOUTATTRIBUTE);
+```java
+SchedulingTopologyBuilder builder=new SchedulingTopologyBuilder();
 ```
 
-Apply the differentiated scheduling in each bolt
+Set Differentiated Scheduling in Storm topology
 
-```txt
-builder.setBolt(USERDEFINEDBOLT,parallism).fieldsGrouping(SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.nohotFileds, new Fields(Constraints.wordFileds)).shuffleGrouping(SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.hotFileds);
+```java
+builder.setSpout(KAFKA_SPOUT_ID, kafkaSpout, PARALLISM);
+builder.setBalancingScheduling(KAFKA_SPOUT_ID,"word");
+builder.setBolt(WORDCOUNTER_BOLT_ID,wordCounterBolt, PARALLISM).fieldsGrouping(Constraints.SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.nohotFileds, new Fields(Constraints.wordFileds)).shuffleGrouping(Constraints.SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.hotFileds);
+builder.setBolt(AGGREGATOR_BOLT_ID, aggregatorBolt, PARALLISM).fieldsGrouping(WORDCOUNTER_BOLT_ID, new Fields(Constraints.wordFileds));
 ```
 
 ## Publications
