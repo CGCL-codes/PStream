@@ -8,7 +8,7 @@ Traditional distributed stream processing systems usually leverage either a shuf
 
 ## Structure of DStream
 
-![image](https://github.com/FanZhang-Windy/DStream/raw/master/image/DStreamStructure.png)
+![image](https://github.com/DStream-Storm/DStream/raw/master/image/DStreamStructure.png)
 
 DStream consists of two components: 1) an independent predicting component for detecting potential hot keys, and 2) a scheduling component in each processing element instance. 
 
