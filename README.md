@@ -1,6 +1,7 @@
 # DStream
 
 ## Overview
+
 DStream is a popularity-aware differentiated distributed stream processing system, which identifies the popularity of keys in the stream data and uses a differentiated partitioning scheme. 
 
 Traditional distributed stream processing systems usually leverage either a shuffle grouping or a key grouping strategy for partitioning the stream workloads among multiple processing units, leading to notable problems of unsatisfied system throughput and processing latency. We find the key to efficient stream scheduling is the popularity of the stream data. We design DStream, which assigns the workloads with popular keys using shuffle grouping while assigns unpopular ones using key grouping. We also design a novel efficient and light-weighted probabilistic counting scheme for identifying the current hot keys in dynamic real-time streams.
@@ -20,6 +21,7 @@ The scheduling component stores the identified hot keys in a space efficient Cou
 
 
 ## API
+
 Generate SchedulingTopologyBuilder according to the Threshold_r, Threshold_l and Threshold_p (config in ./src/main/resources/dstream.properties).
 
 ```java
@@ -37,8 +39,12 @@ builder.setBolt(AGGREGATOR_BOLT_ID, aggregatorBolt, PARALLISM).fieldsGrouping(WO
 
 
 ## How to use?
+
 ### Environment
-We implement DStream in a Linux  with an Intel(R) Core(TM) i5-2430M CPU @2.4GHz and Storm 1.0.2 released environment. 
+
+We implement DStream atop Apache Storm (version 1.0.2 or higher), and deploy the system on a cluster. Each machine is equipped with an octa-core 2.4GHz Xeon CPU, 64.0GB RAM, and a 1000Mbps Ethernet interface card. One machine in the cluster serves as the master node to host the Storm Nimbus. The other machines run Storm supervisors.
+
+### Initial Setting
 
 Install Apache Storm (Please refer to http://storm.apache.org/ to learn more).
 
@@ -57,6 +63,7 @@ storm jar dstream-1.0-SNAPSHOT.jar com.basic.examples.DStreamTopology DStreamTop
 ```
 
 ### Configurations
+
 Configurations including Threshold_r, Threshold_l and Threshold_p in ./src/main/resources/dstream.properties.
 
 ```txt
@@ -65,6 +72,31 @@ Threshold_l=16 (by default)
 Threshold_p=0.01 (by default)
 ```
 
+### Using DStream
+
+import SchedulingTopologyBuilder in the application source code
+
+```txt
+import com.basic.core.SchedulingTopologyBuilder;
+```
+
+Build SchedulingTopologyBuilder before the building of the topology
+
+```txt
+SchedulingTopologyBuilder builder=new SchedulingTopologyBuilder();
+```
+
+Set the bolt of the coinbolt/synopsisbolt
+
+```txt
+builder.setBalancingScheduling(SPOUTID,SPOUTATTRIBUTE);
+```
+
+Apply the differentiated scheduling in each bolt
+
+```txt
+builder.setBolt(USERDEFINEDBOLT,parallism).fieldsGrouping(SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.nohotFileds, new Fields(Constraints.wordFileds)).shuffleGrouping(SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.hotFileds);
+```
 
 ## Publications
 
