@@ -11,7 +11,7 @@ import org.apache.hadoop.hdfs.DistributedFileSystem;
 public class HdfsOperationUtil {
 
     private static Configuration conf = new Configuration();
-    private static final String HADOOP_URL="hdfs://192.168.223.202:9000";
+    private static final String HADOOP_URL="hdfs://192.168.223.202:9000";// default HDFS configuration
 
     private static FileSystem fs;
 

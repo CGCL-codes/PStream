@@ -24,21 +24,22 @@ import static com.basic.core.Constraints.SPLITTER_BOLT_ID;
 /**
  * locate com.basic.examples
  * Created by tj on 2017/5/8.
- * Submit stormtopology storm jar popularity_awaredifferentiatedscheduling-1.0-SNAPSHOT.jar com.basic.examples.keyGroupingBalancingTopology keyGroupingBalancing 8
+ * Submit stormtopology
+ * storm jar DStream-1.0-SNAPSHOT.jar com.basic.examples.DStreamTopology DStreamTopology 8
  */
-public class keyGroupingBalancingTopology {
+public class DStreamTopology {
     public static final String KAFKA_SPOUT_ID ="kafka-spout";
     public static final String AGGREGATOR_BOLT_ID= "aggregator-bolt";
     public static final String WORDCOUNTER_BOLT_ID ="wordcountter-bolt";
     public static final String TOPOLOGY_NAME= "keyGroupingBalancing-topology";
 
     public static void main(String[] args) throws InvalidTopologyException, AuthorizationException, AlreadyAliveException {
-        String zks = "root2:2181,root4:2181,root5:2181";
-        String topic= "tweetswordtopic3";
+        String zks = "root2:2181,root4:2181,root5:2181";// default zookeeper configuration
+        String topic= "tweetswordtopic3";// default kafka topic configuration
         String zkRoot = "/stormkafka"; // default zookeeper root configuration for storm
-        String id = "keyGroupingBalancing";
+        String id = "DStreamTopology";// default application ID
 
-        BrokerHosts brokerHosts = new ZkHosts(zks,"/kafka/brokers");
+        BrokerHosts brokerHosts = new ZkHosts(zks,"/kafka/brokers");// default kafka BrokerHosts
         SpoutConfig spoutConf = new SpoutConfig(brokerHosts, topic, zkRoot, id);
         spoutConf.scheme = new SchemeAsMultiScheme(new MyScheme());
         spoutConf.ignoreZkOffsets = true;
@@ -48,7 +49,7 @@ public class keyGroupingBalancingTopology {
         spoutConf.startOffsetTime = kafka.api.OffsetRequest.EarliestTime();
         KafkaSpout kafkaSpout=new KafkaSpout(spoutConf);
 
-        WordCounterBolt wordCounterBolt=new WordCounterBolt("boltStatus");
+        WordCounterBolt wordCounterBolt=new WordCounterBolt();
         MyAggregatorBolt aggregatorBolt=new MyAggregatorBolt();
 
         SchedulingTopologyBuilder builder=new SchedulingTopologyBuilder();

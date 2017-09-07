@@ -39,7 +39,7 @@ mvn clean package -Dmaven.test.skip=true
 Submit the example to the Storm cluster
 
 ```txt
-storm jar dstream-1.0-SNAPSHOT.jar com.basic.examples.DStreamTopology DStreamTopology
+storm jar DStream-1.0-SNAPSHOT.jar com.basic.examples.DStreamTopology DStreamTopology 8
 ```
 
 ### Configurations

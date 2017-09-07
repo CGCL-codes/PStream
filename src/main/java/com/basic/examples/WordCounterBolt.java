@@ -8,12 +8,9 @@ import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
-import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * locate com.basic.storm.bolt
@@ -22,28 +19,15 @@ import java.util.TimerTask;
 public class WordCounterBolt extends BaseRichBolt {
     private Map<String, Long> counts = new HashMap<String, Long>();
     private OutputCollector outputCollector;
-    private Jedis jedis=null;
-    private Timer timer;
     private long boltstatus=0L;
 
-    private String hset;
-
-    public WordCounterBolt(String hset) {
-        this.hset = hset;
+    public WordCounterBolt() {
     }
 
     @Override
     public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
         final int thisTaskId = context.getThisTaskIndex();
         this.outputCollector = collector;
-        jedis=new Jedis("root2",6379);
-        timer=new Timer();
-
-              timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                jedis.hset(hset,String.valueOf(thisTaskId),String.valueOf(boltstatus));
-            }
-        }, 1,1000);
     }
 
     @Override
