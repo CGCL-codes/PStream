@@ -49,9 +49,9 @@ public class PredictorHotKeyUtil implements Serializable{
      *  @return
      */
     public int countCointUtilUp(){
-        int rand = (int)(Math.random()*2);
-        int count=0;
-        while(rand == 0 && count < Threshold_r+Threshold_l-1)     //Max length set equal to max length+r;
+        int rand = (int)(Math.random()*Math.pow(2,Threshold_r));
+        int count=Threshold_r-1;
+        while(rand == 0 && count < Threshold_l)     //Max length set equal to max length+r;
         {
             rand = (int)(Math.random()*2);
             count++;
