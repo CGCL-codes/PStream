@@ -4,10 +4,9 @@ DStream is a popularity-aware differentiated distributed stream processing syste
 
 ## Introduction
 
-Traditional distributed stream processing systems, such as S4, Samza, Storm, etc. usually leverage either a shuffle grouping or a key grouping strategy for partitioning the stream workloads among multiple processing units. With shuffle grouping, an instance of an upstream processing element partitions the workloads of the stream among all the downstream instances in a round-robin style. It thus generates an even distribution of the workloads. However, such a scheme suffers the problem of scalability in terms of memory. Each instance potentially needs to keep the states for all the keys in the stream. It is clear that the consumed memory for the application grows linearly with the parallelism level, i.e., the number of instances of the processing element. Given a number of *N* unique keys and a number of *M* word-count instances in the system, the amount of required memory space is *O*(*MN*). It is clear that such a shuffle grouping partitioning scheme is hard to scale for large-scale workloads.
+Traditional distributed stream processing systems, such as S4, Samza, Storm, *etc.* usually leverage either a shuffle grouping or a key grouping strategy for partitioning the stream workloads among multiple processing units. With shuffle grouping, an instance of an upstream processing element partitions the workloads of the stream among all the downstream instances in a round-robin style. It thus generates an even distribution of the workloads. However, such a scheme suffers the problem of scalability in terms of memory. Each instance potentially needs to keep the states for all the keys in the stream. It is clear that the consumed memory for the application grows linearly with the parallelism level, i.e., the number of instances of the processing element. Given a number of *N* unique keys and a number of *M* word-count instances in the system, the amount of required memory space is *O*(*MN*). It is clear that such a shuffle grouping partitioning scheme is hard to scale for large-scale workloads.
 
-We examine the performance of the shuffle grouping scheme in greater detail with the experiment shown in the following figure. In the experiment, the system varies the parallelism level by creating different numbers of downstream word-count instances. With each parallelism level, the system adjusts the source's emitting speed of tuples 
-to put the examination of the system to its performance limit. The result shows that when the parallelism level is low, the system throughput increases with the degree of parallelism level. However, when the number of instances continues to increase, the system throughput stops increasing. The experiment reveals that the memory wall restricts the scalability of the system with shuffle grouping strategy.
+We examine the performance of the shuffle grouping scheme in greater detail with the experiment shown in the following figure. In the experiment, the system varies the parallelism level by creating different numbers of downstream word-count instances. With each parallelism level, the system adjusts the source's emitting speed of tuples to put the examination of the system to its performance limit. The result shows that when the parallelism level is low, the system throughput increases with the degree of parallelism level. However, when the number of instances continues to increase, the system throughput stops increasing. The experiment reveals that the memory wall restricts the scalability of the system with shuffle grouping strategy.
 
 ![image](https://github.com/DStream-Storm/DStream/raw/master/image/Shufflegrouping.png)
 
@@ -95,7 +94,7 @@ builder.setBolt(AGGREGATOR_BOLT_ID, aggregatorBolt, PARALLISM).fieldsGrouping(WO
 
 ## Publications
 
-If you want know more detailed information, please refer to this paper:
+If you want to know more detailed information, please refer to this paper:
 
 Hanhua Chen, Fan Zhang, Hai Jin. "Popularity-aware Differentiated Distributed Stream Processing on Skewed Steams." in Proceedings of ICNP, 2017.
 
