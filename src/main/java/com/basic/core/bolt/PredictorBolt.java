@@ -38,7 +38,7 @@ public class PredictorBolt extends BaseRichBolt {
         predictorHotKeyUtil.SynopsisHashMapRandomDump(new DumpRemoveHandler() {
             @Override
             public void dumpRemove(String key) {
-                collector.emit(new Values(word,1));
+                collector.emit(new Values(key,0));
             }
         });
 
