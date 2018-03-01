@@ -1,8 +1,6 @@
 package com.basic.core.util;
 
 import com.basic.core.inter.DumpRemoveHandler;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
 import java.util.BitSet;
@@ -23,7 +21,7 @@ public class PredictorHotKeyUtil implements Serializable{
     private SynopsisHashMap<String, BitSet> predictHotKeyMap = new SynopsisHashMap<String, BitSet>();
 
     private long dumpKeyCount=0L;
-    private static final Log LOG = LogFactory.getLog(PredictorHotKeyUtil.class);
+(PredictorHotKeyUtil.class);
 
     private long totalDelayTime=0L;// The total actual delay of the winning key
     private long totalKeyCount=0L;// Statistics the total number of winning keys

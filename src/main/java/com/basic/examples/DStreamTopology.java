@@ -19,7 +19,7 @@ import org.apache.storm.utils.Utils;
 
 import java.util.Arrays;
 
-import static com.basic.core.Constraints.SPLITTER_BOLT_ID;
+import static com.basic.core.Constraints.SCHEDULER_BOLT_ID;
 
 /**
  * locate com.basic.examples
@@ -56,8 +56,8 @@ public class DStreamTopology {
         Integer numworkers=Integer.valueOf(args[1]);
 
         builder.setSpout(KAFKA_SPOUT_ID, kafkaSpout, 9);
-        builder.setBalancingScheduling(KAFKA_SPOUT_ID,"word");
-        builder.setBolt(WORDCOUNTER_BOLT_ID,wordCounterBolt, 36).fieldsGrouping(SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.nohotFileds, new Fields(Constraints.wordFileds)).shuffleGrouping(SPLITTER_BOLT_ID+builder.getSchedulingNum(), Constraints.hotFileds);
+        builder.setDifferentiatedScheduling(KAFKA_SPOUT_ID,"word");
+        builder.setBolt(WORDCOUNTER_BOLT_ID,wordCounterBolt, 36).fieldsGrouping(SCHEDULER_BOLT_ID+builder.getSchedulingNum(), Constraints.nohotFileds, new Fields(Constraints.wordFileds)).shuffleGrouping(SCHEDULER_BOLT_ID+builder.getSchedulingNum(), Constraints.hotFileds);
         builder.setBolt(AGGREGATOR_BOLT_ID, aggregatorBolt, 36).fieldsGrouping(WORDCOUNTER_BOLT_ID, new Fields(Constraints.wordFileds));
         //Topology config
         Config config=new Config();

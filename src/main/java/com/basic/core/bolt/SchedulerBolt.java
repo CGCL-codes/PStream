@@ -17,15 +17,15 @@ import java.util.Map;
  * locate com.basic.storm.bolt
  * Created by tj on 2017/5/8.
  */
-public class SplitterBolt extends BaseRichBolt {
+public class SchedulerBolt extends BaseRichBolt {
     private String UPSTREAM_COMPONENT_ID;
-    private String UPSTREAM_FIEDLS;
+    private String UPSTREAM_FIELDS;
     private OutputCollector collector;
     private CountingBloomFilter bf;
 
-    public SplitterBolt(String UPSTREAM_COMPONENT_ID,String UPSTREAM_FIEDLS) {
+    public SchedulerBolt(String UPSTREAM_COMPONENT_ID,String UPSTREAM_FIELDS) {
         this.UPSTREAM_COMPONENT_ID = UPSTREAM_COMPONENT_ID;
-        this.UPSTREAM_FIEDLS=UPSTREAM_FIEDLS;
+        this.UPSTREAM_FIELDS=UPSTREAM_FIELDS;
     }
 
     public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
@@ -35,7 +35,7 @@ public class SplitterBolt extends BaseRichBolt {
 
     public void execute(Tuple tuple) {
         if(tuple.getSourceComponent().equals(UPSTREAM_COMPONENT_ID)){
-            String word = tuple.getStringByField(UPSTREAM_FIEDLS);
+            String word = tuple.getStringByField(UPSTREAM_FIELDS);
             if(word.length() <= 0) {
                 collector.ack(tuple);
                 return;

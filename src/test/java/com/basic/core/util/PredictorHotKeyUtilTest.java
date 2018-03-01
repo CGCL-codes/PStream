@@ -50,13 +50,6 @@ public class PredictorHotKeyUtilTest {
         System.out.println(bytes[0]);
         System.out.println(longs[0]);
         int i = bytes[0] >>> 1;
- //        int i = byteArrayToInt(bytes);
-//        System.out.println(i);
-//        int num =i >> 1;
-//        System.out.println(num);
-//        byte[] bytes1 = intToByteArray(i);
-//        bitm = BitSet.valueOf(new byte[]{48});
-//        System.out.println(bitm);
     }
 
     @Test
@@ -78,18 +71,6 @@ public class PredictorHotKeyUtilTest {
         System.out.println(bitm);
     }
 
-//    public static byte[] longToByteArray(long lo,int byteNum) {
-//        byte[] result = new byte[byteNum];
-//        int remainbyte=byteNum;
-//        while (remainbyte <= 64){
-//            int temp=Math.min(remainbyte - 64,64);
-//            for(int i=0;i<byteNum;i++){
-//                result[i+j] = (byte)((lo >> 8*i) & 0xFF);
-//            }
-//            remainbyte-=64;
-//        }
-//        return result;
-//    }
 
     @Test
     public void testBitSet(){

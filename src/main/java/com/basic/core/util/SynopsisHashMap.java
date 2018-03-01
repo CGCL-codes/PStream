@@ -10,8 +10,7 @@ public class SynopsisHashMap<K,V>
     extends AbstractMap<K,V>
     implements Map<K,V>, Cloneable, Serializable
 {
-
-    static final int DEFAULT_INITIAL_CAPACITY = 16;   //    16;
+    static final int DEFAULT_INITIAL_CAPACITY = 16;
     static final int MAXIMUM_CAPACITY = 1 << 30;
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
     transient Entry[] table;
