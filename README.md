@@ -1,6 +1,6 @@
-# DStream
+# PStream
 
-DStream is a popularity-aware differentiated distributed stream processing system, which identifies the popularity of keys in dynamic real-time streams and uses a differentiated scheduling scheme for stream data partitioning. DStream greatly outperforms Storm on skew distributed data in terms of system throughput and the average processing latency.
+PStream is a popularity-aware differentiated distributed stream processing system, which identifies the popularity of keys in dynamic real-time streams and uses a differentiated scheduling scheme for stream data partitioning. PStream greatly outperforms Storm on skew distributed data in terms of system throughput and the average processing latency.
 
 ## Introduction
 
@@ -10,21 +10,21 @@ Key grouping uses the hashing based scheme partition the key space nearly evenly
 
 We examine the performance of the shuffle grouping scheme in greater detail with the experiment shown in the following figure. In the experiment, the system varies the parallelism level by creating different numbers of downstream word-count instances. With each parallelism level, the system adjusts the source's emitting speed of tuples to put the examination of the system to its performance limit. The result shows that when the parallelism level is low, the system throughput increases with the degree of parallelism level. However, when the number of instances continues to increase, the system throughput stops increasing. The experiment reveals that the memory wall restricts the scalability of the system with shuffle grouping strategy.
 
-![image](https://github.com/DStream-Storm/DStream/raw/master/image/Shufflegrouping.png)
+![image](https://github.com/DStream-Storm/PStream/raw/master/image/Shufflegrouping.png)
 
 We also carefully examine the performance of the key grouping strategy in the presence of data skewness, we conduct extended experiments for key grouping using seven synthetic datasets (the datasets follow zipf distributions with coefficients varying from 0.5 to 2.0). The results in the following figure show that the throughput decreases greatly with the increase of the level of skewness of the stream data. This reveals that the system load imbalance due to data skewness leads to significant performance degradation. In contrast, the performance of shuffle grouping remains much more stable in the presence of skewness.
 
-![image](https://github.com/DStream-Storm/DStream/raw/master/image/Keygrouping.png)
+![image](https://github.com/DStream-Storm/PStream/raw/master/image/Keygrouping.png)
 
-Based on the above analysis, we find that the key for efficient distributed stream processing is to differentiate the popularity of keys. The key grouping scheme is memory efficient for a large number of rare keys. It however suffers from serious problem of load imbalance caused by the hot keys. On the contrary, the shuffle grouping scheme is able to balance the heavy workloads caused by hot keys. It however does not scale in terms of memory because of the large number of rare keys. Based on this insight, we design DStream and implement DStream on top of Apache Storm. DStream identifies the popularity of keys in the stream data and uses a differentiated partitioning scheme. For hot keys, DStream chooses the shuffle grouping strategy, while for unpopular keys, it selects key grouping. 
+Based on the above analysis, we find that the key for efficient distributed stream processing is to differentiate the popularity of keys. The key grouping scheme is memory efficient for a large number of rare keys. It however suffers from serious problem of load imbalance caused by the hot keys. On the contrary, the shuffle grouping scheme is able to balance the heavy workloads caused by hot keys. It however does not scale in terms of memory because of the large number of rare keys. Based on this insight, we design PStream and implement PStream on top of Apache Storm. PStream identifies the popularity of keys in the stream data and uses a differentiated partitioning scheme. For hot keys, PStream chooses the shuffle grouping strategy, while for unpopular keys, it selects key grouping. 
 
-A most important part of DStream is the light-weighted hot key predictor. Identifying the popularity of the keys in a distributed stream processing system is challenging. It is also very difficult to meet the rigorous requirements of both computation and memory efficiency and cope with the highly dynamic real-time streams. To address this issue, we design a novel light-weighted predictor for identifying the current hot keys in the real-time data streams. Two factors contribute to the efficiency of this design: 1) we propose a novel probabilistic counting scheme, which is computation and memory efficient so that the predictor based on it can be well integrated in an instance of processing element in a distributed stream processing system; 2) the predictor based on the proposed probabilistic counting scheme can adapt to the popularity changes in the dynamic stream processing environment.
+A most important part of PStream is the light-weighted hot key predictor. Identifying the popularity of the keys in a distributed stream processing system is challenging. It is also very difficult to meet the rigorous requirements of both computation and memory efficiency and cope with the highly dynamic real-time streams. To address this issue, we design a novel light-weighted predictor for identifying the current hot keys in the real-time data streams. Two factors contribute to the efficiency of this design: 1) we propose a novel probabilistic counting scheme, which is computation and memory efficient so that the predictor based on it can be well integrated in an instance of processing element in a distributed stream processing system; 2) the predictor based on the proposed probabilistic counting scheme can adapt to the popularity changes in the dynamic stream processing environment.
 
-## Structure of DStream
+## Structure of PStream
 
-![image](https://github.com/DStream-Storm/DStream/raw/master/image/DStreamStructure.png)
+![image](https://github.com/DStream-Storm/PStream/raw/master/image/DStreamStructure.png)
 
-DStream consists of two components: 1) an independent predicting component for detecting potential hot keys, and 2) a scheduling component in each processing element instance. 
+PStream consists of two components: 1) an independent predicting component for detecting potential hot keys, and 2) a scheduling component in each processing element instance. 
 
 The predicting component leverages a novel probabilistic counting scheme to precisely identify the current hot keys in a stream, and achieves probabilistic counting of the tuples associated with a key. The keys likely to be hot ones are detected and recorded in a synopsis of potential hot keys. The synopsis keeps updating along with the stream processing, and identifies the hot keys. The synopsis also uses a popularity decline mechanism to identify the keys which are once hot but now unpopular.
 
@@ -35,7 +35,7 @@ The scheduling component stores the identified hot keys in a space efficient Cou
 
 ### Environment
 
-We implement DStream atop Apache Storm (version 1.0.2 or higher), and deploy the system on a cluster. Each machine is equipped with an octa-core 2.4GHz Xeon CPU, 64.0GB RAM, and a 1000Mbps Ethernet interface card. One machine in the cluster serves as the master node to host the Storm Nimbus. The other machines run Storm supervisors.
+We implement PStream atop Apache Storm (version 1.0.2 or higher), and deploy the system on a cluster. Each machine is equipped with an octa-core 2.4GHz Xeon CPU, 64.0GB RAM, and a 1000Mbps Ethernet interface card. One machine in the cluster serves as the master node to host the Storm Nimbus. The other machines run Storm supervisors.
 
 ### Initial Setting
 
@@ -52,12 +52,12 @@ mvn clean package -Dmaven.test.skip=true
 Submit the example to the Storm cluster
 
 ```txt
-storm jar DStream-1.0-SNAPSHOT.jar com.basic.examples.DStreamTopology DStreamTopology *PARALLISM*
+storm jar PStream-1.0-SNAPSHOT.jar com.basic.examples.DStreamTopology PStreamTopology *PARALLISM*
 ```
 
 ### Configurations
 
-Configurations including Threshold_r, Threshold_l and Threshold_p in ./src/main/resources/dstream.properties.
+Configurations including Threshold_r, Threshold_l and Threshold_p in ./src/main/resources/pstream.properties.
 
 ```txt
 Threshold_r=6 (by default)
@@ -65,7 +65,7 @@ Threshold_l=16 (by default)
 Threshold_p=0.01 (by default)
 ```
 
-### Using DStream
+### Using PStream
 
 Import SchedulingTopologyBuilder in the application source code
 
@@ -79,7 +79,7 @@ Build SchedulingTopologyBuilder before the building of the topology
 SchedulingTopologyBuilder builder=new SchedulingTopologyBuilder();
 ```
 
-Generate SchedulingTopologyBuilder according to the Threshold_r, Threshold_l and Threshold_p (config in ./src/main/resources/dstream.properties).
+Generate SchedulingTopologyBuilder according to the Threshold_r, Threshold_l and Threshold_p (config in ./src/main/resources/pstream.properties).
 
 ```java
 SchedulingTopologyBuilder builder=new SchedulingTopologyBuilder();
