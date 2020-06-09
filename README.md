@@ -10,11 +10,11 @@ Key grouping uses the hashing based scheme partition the key space nearly evenly
 
 We examine the performance of the shuffle grouping scheme in greater detail with the experiment shown in the following figure. In the experiment, the system varies the parallelism level by creating different numbers of downstream word-count instances. With each parallelism level, the system adjusts the source's emitting speed of tuples to put the examination of the system to its performance limit. The result shows that when the parallelism level is low, the system throughput increases with the degree of parallelism level. However, when the number of instances continues to increase, the system throughput stops increasing. The experiment reveals that the memory wall restricts the scalability of the system with shuffle grouping strategy.
 
-![image](https://github.com/DStream-Storm/PStream/raw/master/image/Shufflegrouping.png)
+![image](https://github.com/CGCL-codes/PStream/raw/master/image/Shufflegrouping.png)
 
 We also carefully examine the performance of the key grouping strategy in the presence of data skewness, we conduct extended experiments for key grouping using seven synthetic datasets (the datasets follow zipf distributions with coefficients varying from 0.5 to 2.0). The results in the following figure show that the throughput decreases greatly with the increase of the level of skewness of the stream data. This reveals that the system load imbalance due to data skewness leads to significant performance degradation. In contrast, the performance of shuffle grouping remains much more stable in the presence of skewness.
 
-![image](https://github.com/DStream-Storm/PStream/raw/master/image/Keygrouping.png)
+![image](https://github.com/CGCL-codes/PStream/raw/master/image/Keygrouping.png)
 
 Based on the above analysis, we find that the key for efficient distributed stream processing is to differentiate the popularity of keys. The key grouping scheme is memory efficient for a large number of rare keys. It however suffers from serious problem of load imbalance caused by the hot keys. On the contrary, the shuffle grouping scheme is able to balance the heavy workloads caused by hot keys. It however does not scale in terms of memory because of the large number of rare keys. Based on this insight, we design PStream and implement PStream on top of Apache Storm. PStream identifies the popularity of keys in the stream data and uses a differentiated partitioning scheme. For hot keys, PStream chooses the shuffle grouping strategy, while for unpopular keys, it selects key grouping. 
 
@@ -22,7 +22,7 @@ A most important part of PStream is the light-weighted hot key predictor. Identi
 
 ## Structure of PStream
 
-![image](https://github.com/DStream-Storm/PStream/raw/master/image/DStreamStructure.png)
+![image](https://github.com/CGCL-codes/PStream/raw/master/image/DStreamStructure.png)
 
 PStream consists of two components: 1) an independent predicting component for detecting potential hot keys, and 2) a scheduling component in each processing element instance. 
 
@@ -52,7 +52,7 @@ mvn clean package -Dmaven.test.skip=true
 Submit the example to the Storm cluster
 
 ```txt
-storm jar PStream-1.0-SNAPSHOT.jar com.basic.examples.DStreamTopology PStreamTopology *PARALLISM*
+storm jar PStream-1.0-SNAPSHOT.jar com.basic.examples.PStreamTopology PStreamTopology *PARALLISM*
 ```
 
 ### Configurations
