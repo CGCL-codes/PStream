@@ -22,7 +22,7 @@ A most important part of PStream is the light-weighted hot key predictor. Identi
 
 ## Structure of PStream
 
-![image](https://github.com/CGCL-codes/PStream/raw/master/image/DStreamStructure.png)
+![image](https://github.com/CGCL-codes/PStream/raw/master/image/PStreamStructure.png)
 
 PStream consists of two components: 1) an independent predicting component for detecting potential hot keys, and 2) a scheduling component in each processing element instance. 
 
@@ -98,12 +98,12 @@ builder.setBolt(AGGREGATOR_BOLT_ID, aggregatorBolt, PARALLISM).fieldsGrouping(WO
 
 If you want to know more detailed information, please refer to this paper:
 
-Hanhua Chen, Fan Zhang, Hai Jin. "Popularity-aware Differentiated Distributed Stream Processing on Skewed Steams." in Proceedings of ICNP, 2017.
+Hanhua Chen, Fan Zhang, Hai Jin. "[Popularity-aware Differentiated Distributed Stream Processing on Skewed Steams.](https://ieeexplore.ieee.org/document/8117551)" in Proceedings of 25th International Conference on Network Protocols (ICNP 2017), Toronto, ON, Canada, October 10-13, 2017. ([Bibtex](https://github.com/CGCL-codes/PStream/blob/master/PStream-conf.bib))
 
 
 ## Author and Copyright
 
-DStream is developed in Cluster and Grid Computing Lab, Services Computing Technology and System Lab, Big Data Technology and System Lab, School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan, China by Hanhua Chen (chen@hust.edu.cn), Fan Zhang(zhangf@hust.edu.cn), Hai Jin (hjin@hust.edu.cn), Jie Tan(tjmaster@hust.edu.cn)
+PStream is developed in National Engineering Research Center for Big Data Technology and System, Cluster and Grid Computing Lab, Services Computing Technology and System Lab, School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan, China by Hanhua Chen (chen@hust.edu.cn), Fan Zhang(zhangf@hust.edu.cn), Hai Jin (hjin@hust.edu.cn), Jie Tan(tjmaster@hust.edu.cn)
 
 Copyright (C) 2017, [STCS & CGCL](http://grid.hust.edu.cn/) and [Huazhong University of Science and Technology](http://www.hust.edu.cn).
 
