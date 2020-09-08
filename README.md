@@ -98,7 +98,7 @@ builder.setBolt(AGGREGATOR_BOLT_ID, aggregatorBolt, PARALLISM).fieldsGrouping(WO
 
 If you want to know more detailed information, please refer to the following papers:
 
-Hanhua Chen, Fan Zhang, Hai Jin. "[PStream: a Popularity-aware Differentiated Distributed Stream Processing System.](https://ieeexplore.ieee.org/document/9178498)" IEEE Transactions on Computers, 2020. DOI: 10.1109/TC.2020.3019689. ([Bibtex](https://github.com/CGCL-codes/PStream/blob/master/PStream-journal.bib))
+Hanhua Chen, Fan Zhang, Hai Jin. "[PStream: a Popularity-aware Differentiated Distributed Stream Processing System.](https://ieeexplore.ieee.org/document/9178498)" IEEE Transactions on Computers, 2020. ([Bibtex](https://github.com/CGCL-codes/PStream/blob/master/PStream-journal.bib))
 
 Hanhua Chen, Fan Zhang, Hai Jin. "[Popularity-aware Differentiated Distributed Stream Processing on Skewed Steams.](https://ieeexplore.ieee.org/document/8117551)" in Proceedings of 25th International Conference on Network Protocols (ICNP 2017), Toronto, ON, Canada, October 10-13, 2017. ([Bibtex](https://github.com/CGCL-codes/PStream/blob/master/PStream-conf.bib))
 
