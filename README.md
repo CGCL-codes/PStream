@@ -1,6 +1,6 @@
 # PStream
 
-PStream is a popularity-aware differentiated distributed stream processing system, which identifies the popularity of keys in dynamic real-time streams and uses a differentiated scheduling scheme for stream data partitioning. PStream greatly outperforms Storm on skew distributed data in terms of system throughput and the average processing latency.
+PStream is a popularity-aware differentiated distributed stream processing system, which identifies the popularity of keys in dynamic real-time streams and uses a differentiated scheduling scheme for stream data partitioning. PStream greatly outperforms Apache Storm on skew distributed data in terms of system throughput and the average processing latency. The results of the experiment using large-scale real-world traces show that PStream achieves a 2.3× improvement in terms of processing throughput and reduces the processing latency by 64% compared to that of Apache Storm.
 
 ## Introduction
 
